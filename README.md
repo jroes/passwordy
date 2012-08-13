@@ -1,7 +1,12 @@
 What
 ==
-**passwordy** generates passwords without a password database. This is
-mostly just a Ruby transcription of https://gist.github.com/3334991, a method for generating passwords
+**passwordy** generates passwords without a password database.
+
+1. Pick a master password / passphrase. Something strong that you'll remember.
+2. Give passwordy your master password and the name of the thing you want to log into (a website, for example).
+3. Passwordy tells you the password!
+
+This is mostly just a Ruby transcription of https://gist.github.com/3334991, a method for generating passwords
 without a password database.
 
 Installation
@@ -11,6 +16,7 @@ Installation
 Usage
 ==
     $ passwordy google.com
+    <enter your master password>
     45c36071988fcd6e115afffb519feb19
 
 Backing up

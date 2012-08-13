@@ -35,11 +35,11 @@ module Passwordy
 
       salt = File.open(salt_path, 'r').read
 
-      first_digest = Digest::SHA512.hexdigest([salt, resource].join('\n'))
-      second_digest = Digest::SHA512.hexdigest(master_password)
-      digested_parts = [first_digest, second_digest].join('\n')
+      sha_a = Digest::SHA512.digest(salt).bytes
+      sha_b = Digest::SHA512.digest(resource).bytes
+      sha_c = Digest::SHA512.digest(master_password).bytes
 
-      Digest::SHA512.hexdigest(digested_parts)[1..32]
+      Digest::SHA512.base64digest(sha_a.zip(sha_b,sha_c).map{|a,b,c| a ^ b ^ c }.pack("C*"))[1..23] #>128 bits of entropy
     end
 
     private

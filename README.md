@@ -11,7 +11,7 @@ Installation
 Usage
 ==
     $ passwordy google.com
-    9008781fb309e1114ed13875318e574e5a2c561a6b5c417470b77e431659bb9ec9b11864b3f75673b91c7f9b4895c3c1cb5b0438531a6f8222199da57cc4672e
+    45c36071988fcd6e115afffb519feb19
 
 Backing up
 ==

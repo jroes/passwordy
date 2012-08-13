@@ -29,7 +29,7 @@ module Passwordy
     #   # => 'e94e5ce8c8ca9affb507ae9e152d4b44'
     #
     # Returns a password that can be used for the given resource.
-    def self.generate_password(resource, master_password)
+    def self.generate_password(resource, master_password, len=23)
       salt_path = File.expand_path('~/.salt')
       write_salt(salt_path)
 
@@ -39,7 +39,7 @@ module Passwordy
       sha_b = Digest::SHA512.digest(resource).bytes
       sha_c = Digest::SHA512.digest(master_password).bytes
 
-      Digest::SHA512.base64digest(sha_a.zip(sha_b,sha_c).map{|a,b,c| a ^ b ^ c }.pack("C*"))[1..23] #>128 bits of entropy
+      Digest::SHA512.base64digest(sha_a.zip(sha_b,sha_c).map{|a,b,c| a ^ b ^ c }.pack("C*"))[1..len] #>128 bits of entropy
     end
 
     private

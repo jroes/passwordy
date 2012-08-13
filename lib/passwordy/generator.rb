@@ -1,4 +1,5 @@
 require 'digest'
+require 'securerandom'
 
 module Passwordy
   class Generator
@@ -11,25 +12,24 @@ module Passwordy
     end
 
     def self.write_salt(path)
-      File.new(path, 'w') do |f|
+      return if File.exists?(path)
+      File.open(path, 'w') do |f|
         f.write(generate_salt)
         f.chmod(0400)
       end
     end
 
-    def self.generate_password(domain)
+    def self.generate_password(domain, master_password)
       salt_path = File.expand_path('~/.salt')
-      write_salt unless File.exists?(salt_path)
+      write_salt(salt_path)
 
       salt = File.open(salt_path, 'r').read
 
-      `stty -echo`
       first_digest = Digest::SHA512.hexdigest([salt, domain].join('\n'))
-      second_digest = Digest::SHA512.hexdigest($stdin.gets)
+      second_digest = Digest::SHA512.hexdigest(master_password)
       digested_parts = [first_digest, second_digest].join('\n')
-      `stty echo`
 
-      Digest::SHA512.hexdigest(digested_parts).chars.to_a.last(32).join
+      Digest::SHA512.hexdigest(digested_parts)[1..32]
     end
   end
 end

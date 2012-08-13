@@ -6,6 +6,12 @@ Gem::Specification.new do |s|
   s.description = "Generates passwords for you without a password database."
   s.authors     = ["Jon Roes"]
   s.email       = 'jroes@jroes.net'
-  s.files       = ["lib/passwordy.rb"]
-  s.homepage    = 'http://rubygems.org/gems/passwordy'
+  s.files       = ["lib/passwordy.rb", "lib/passwordy/generator.rb"]
+  s.executables << 'passwordy'
+  s.homepage    = 'http://github.com/jroes/passwordy'
+
+  s.add_development_dependency('rake', "~> 0.9")
+  s.add_development_dependency('redgreen', "~> 1.2")
+  s.add_development_dependency('shoulda', "~> 2.11")
+  s.add_development_dependency('rr', "~> 1.0")
 end

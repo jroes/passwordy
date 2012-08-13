@@ -1,6 +1,12 @@
 require 'digest'
 require 'securerandom'
 
+begin
+  require 'clipboard'
+rescue LoadError
+  #do nothing, just let clip_password throw an error
+end
+
 module Passwordy
   class Generator
     # Public: Write a salt file to a particular location.
@@ -16,17 +22,36 @@ module Passwordy
       end
     end
 
+    # Public: Generate a password for a given resource and copy it to the clipboard(s).
+    #
+    # resource -        The String name of the thing we want a
+    #                   password for.
+    # master_password - The String master password that is used to
+    #                   generate any subsequent passwords.
+    # len -             The length of the password to generate
+    #
+    # Examples
+    #
+    #   clip_password('google.com', 'keyboard cat')
+    #   # => 'd6Pet4qL22iZWBJk5wrzQwX'
+    #
+    # Returns a password that can be used for the given resource.
+    def self.clip_password(resource, master_password, len=23)
+      Clipboard.copy self.generate_password(resource, master_password, len)
+    end
+
     # Public: Generate a password for a given resource.
     #
     # resource -        The String name of the thing we want a
     #                   password for.
     # master_password - The String master password that is used to
     #                   generate any subsequent passwords.
+    # len -             The length of the password to generate
     #
     # Examples
     #
     #   generate_password('google.com', 'keyboard cat')
-    #   # => 'e94e5ce8c8ca9affb507ae9e152d4b44'
+    #   # => 'd6Pet4qL22iZWBJk5wrzQwX'
     #
     # Returns a password that can be used for the given resource.
     def self.generate_password(resource, master_password, len=23)
